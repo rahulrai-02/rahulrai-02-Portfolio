@@ -1,0 +1,37 @@
+Rahul Kumar
+♂¶ap-¶arker-altLudhiana, Punjab/envel⌢perahulrai.developer@gmail.com♂phone+91 8288980473/linkedinlinkedin.com/in/Rahul Kumar
+Professional Summary
+Java-Certified Computer Science graduate with expertise indata science, machine learning, and software develop-
+ment. Proven ability to developpredictive models, clean datasets, and build NLP-based solutionsusingPython,
+Java, and Scikit-learn. Strong problem-solving skills with a passion forcollaborative innovationandcontinuous
+learning.
+Technical Skills
+•Programming:Java (Certified), Python, C/C++, JavaScript, SQL
+•Data Science & ML:Pandas, NumPy, Scikit-learn, TensorFlow, NLP, Matplotlib, Seaborn
+•Web Technologies:HTML5, CSS,
+•Tools:Git, Jupyter Notebook, VS Code, Eclipse, MySQL
+•Soft Skills:Problem-Solving, Team Collaboration, Analytical Thinking, Project Management
+Education
+Bachelor of Technology (Computer Science & Engineering)2022 – 2026
+I. K. Gujral Punjab Technical University, Jalandhar
+Relevant Coursework: Data Structures, Algorithms, DBMS, OOP, Machine Learning, NLP
+Certification: Java Programming
+Projects
+Spam SMS ClassificationPython, NLP, Scikit-learn
+•Developed asupervised ML modelto classify SMS as spam/ham with92% accuracyusingTF-IDF and Naive
+Bayes.
+•Preprocessed5K+ messages(tokenization, stemming, stopword removal) to improve model performance.
+Hate Speech Detection SystemPython, NLP, TensorFlow
+Work Experience
+Data Science Intern Feb 2025 – Apr 2025
+Personify
+•Developedpredictive modelsusingPython & Scikit-learn, improving customer insights by20%.
+•Cleaned & analyzed10K+ recordsusingPandas & NumPy, reducing data errors by15%.
+•Builtinteractive dashboards(Matplotlib/Seaborn) for stakeholder visualization.
+Certifications & Achievements
+•Java Programming CertificationIssuing Authority, Year
+Additional Information
+•Languages:English (Fluent), Hindi (Native), Punjabi (Native)
+•Hobbies:Coding, Open-Source Contributions, Tech Blogging, Competitive Programming
+•GitHub:github.com/rahulrai-02
+1

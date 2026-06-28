@@ -1,744 +1,353 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rahul Kumar | Next-Gen Portfolio</title>
-    
-    <!-- External Dependencies: GSAP for high-end animations, FontAwesome for Icons -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <title>Rahul Kumar - Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <style>
-        /* Modern CSS Architecture with Dynamic Properties */
-        :root {
-            --bg-main: #0a0a0c;
-            --bg-card: rgba(20, 20, 25, 0.7);
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --accent: #6366f1;
-            --accent-glow: rgba(99, 102, 241, 0.4);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --gradient-text: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
-        }
-
-        [data-theme="light"] {
-            --bg-main: #f8fafc;
-            --bg-card: rgba(255, 255, 255, 0.8);
-            --text-main: #0f172a;
-            --text-muted: #475569;
-            --accent: #4f46e5;
-            --accent-glow: rgba(79, 70, 229, 0.2);
-            --glass-border: rgba(0, 0, 0, 0.08);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            overflow-x: hidden;
-            transition: background-color 0.5s ease;
-        }
-
-        /* Ambient Animated Mesh Background */
-        #canvas-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            pointer-events: none;
-            opacity: 0.6;
-        }
-
-        /* Glassmorphic Navigation Bar */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1.25rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--glass-border);
-            z-index: 1000;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.5px;
-        }
-
-        .nav-controls {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
-
-        select, .control-btn {
-            background: var(--bg-card);
-            color: var(--text-main);
-            border: 1px solid var(--glass-border);
-            padding: 0.6rem 1.2rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        select:hover, .control-btn:hover {
-            border-color: var(--accent);
-            box-shadow: 0 0 15px var(--accent-glow);
-        }
-
-        /* Immersive Section Sizing */
-        section {
-            min-height: 100vh;
-            padding: 8rem 10% 4rem 10%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-        }
-
-        /* Typography & Layouts */
-        .glitch-title {
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            letter-spacing: -2px;
-        }
-
-        .highlight-text {
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .subtitle {
-            font-size: clamp(1.1rem, 2vw, 1.5rem);
-            color: var(--text-muted);
-            max-width: 600px;
-            margin-bottom: 2.5rem;
-        }
-
-        /* Infinite Graphic/Picture Grid Mode Section */
-        .infinite-gallery-container {
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-            padding: 2rem 0;
-        }
-
-        .marquee-track {
-            display: flex;
-            width: max-content;
-            gap: 2rem;
-            animation: marquee 25s linear infinite;
-        }
-
-        .marquee-track:hover {
-            animation-play-state: paused;
-        }
-
-        .gallery-card {
-            width: 320px;
-            height: 400px;
-            background: var(--bg-card);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transform: transition transform 0.4s ease;
-        }
-
-        .gallery-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: var(--accent);
-        }
-
-        .gallery-image-placeholder {
-            width: 100%;
-            height: 60%;
-            background: linear-gradient(45deg, #1e1b4b, #311042);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: var(--accent);
-        }
-
-        .gallery-info {
-            padding: 1.5rem;
-        }
-
-        /* Responsive Project Glass Cards Grid */
-        .grid-layout {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-            margin-top: 3rem;
-        }
-
-        .glass-card {
-            background: var(--bg-card);
-            border: 1px solid var(--glass-border);
-            padding: 2.5rem;
-            border-radius: 24px;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-        }
-
-        .glass-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .card-icon {
-            font-size: 2.5rem;
-            color: var(--accent);
-            margin-bottom: 1.5rem;
-        }
-
-        .live-badge {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            background: rgba(16, 185, 129, 0.2);
-            color: #10b981;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .live-badge::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background: #10b981;
-            border-radius: 50%;
-            display: inline-block;
-            animation: pulse 1.5s infinite;
-        }
-
-        /* Interactive Dynamic Button Architecture */
-        .action-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            background: var(--accent);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 15px var(--accent-glow);
-        }
-
-        .action-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 25px var(--accent);
-        }
-
-        .secondary-link {
-            color: var(--text-main);
-            text-decoration: none;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 1.5rem;
-            transition: color 0.3s;
-        }
-
-        .secondary-link:hover {
-            color: var(--accent);
-        }
-
-        /* Animations Framework */
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(calc(-50% - 1rem)); }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(0.9); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.5; }
-            100% { transform: scale(0.9); opacity: 1; }
-        }
-
-        @media (max-width: 768px) {
-            nav { padding: 1rem; }
-            .nav-controls { gap: 0.5rem; }
-            select, .control-btn { padding: 0.5rem 0.8rem; font-size: 0.85rem; }
-        }
-    </style>
 </head>
 <body>
-
-    <!-- Motion Background Context Vector Loop -->
-    <canvas id="canvas-bg"></canvas>
-
-    <!-- Navigation Header Block -->
-    <nav>
-        <div class="logo">RK.DEV</div>
-        <div class="nav-controls">
-            <select id="language-switcher" onchange="switchLanguage(this.value)">
-                <option value="en">English</option>
-                <option value="hi">हिंदी (Hindi)</option>
-                <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
-                <option value="es">Español (Spanish)</option>
-                <option value="fr">Français (French)</option>
-                <option value="de">Deutsch (German)</option>
-                <option value="zh">中文 (Chinese)</option>
-                <option value="ja">日本語 (Japanese)</option>
-                <option value="ar">العربية (Arabic)</option>
-                <option value="ru">Русский (Russian)</option>
-                <option value="pt">Português (Portuguese)</option>
-                <option value="bn">বাংলা (Bengali)</option>
-            </select>
-            <button class="control-btn" onclick="toggleSystemTheme()" id="theme-icon">
-                <i class="fas fa-sun"></i>
-            </button>
-        </div>
+    <div id="gem-container"></div>
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
+    
+    <nav class="navbar">
+        <a href="#" class="logo">RK.</a>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#dashboard">Dashboard</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#certifications">Certifications</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button class="theme-toggle" id="theme-toggle">
+            <i class="fa-solid fa-moon"></i>
+        </button>
     </nav>
 
-    <!-- Hero Showcase Block -->
-    <section id="hero-space">
-        <div>
-            <h1 class="glitch-title" data-i18n="hero_title">
-                Engineering <br><span class="highlight-text">Intelligence & Data</span>
-            </h1>
-            <p class="subtitle" data-i18n="hero_desc">
-                Java-Certified Computer Science Engineer specialized in developing smart predictive systems, natural language processing models, and high-performance full-stack architectures[cite: 1].
-            </p>
-            <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-                <a href="mailto:rahulrai.developer@gmail.com" class="action-btn">
-                    <i class="fas fa-envelope"></i> <span data-i18n="cta_connect">Let's Connect</span>
-                </a>
-                <a href="https://github.com/rahulrai-02" target="_blank" class="control-btn" style="text-decoration:none; display:inline-flex; align-items:center; gap:0.5rem;">
-                    <i class="fab fa-github"></i> GitHub
-                </a>
-                <a href="https://linkedin.com/in/Rahul Kumar" target="_blank" class="control-btn" style="text-decoration:none; display:inline-flex; align-items:center; gap:0.5rem;">
-                    <i class="fab fa-linkedin"></i> LinkedIn
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Endless Graphics / Picture Mode Section -->
-    <section id="picture-mode">
-        <h2 class="highlight-text" style="font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem;" data-i18n="gallery_title">Endless Dynamic Stream</h2>
-        <p class="subtitle" data-i18n="gallery_desc">An un-interrupted look at visual modules, architectures, and concepts. Hover to freeze tracking loop.</p>
-        
-        <div class="infinite-gallery-container">
-            <div class="marquee-track" id="dynamic-marquee">
-                <!-- Generating matching paired sequence programmatically for infinite seamless loop -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Live Verified Software Engineering Grid -->
-    <section id="work-space">
-        <h2 style="font-size: 3rem; font-weight: 900; margin-bottom: 0.5rem;" data-i18n="works_heading">Verified Operational Work</h2>
-        <p class="subtitle" data-i18n="works_sub">Production-grade applications built with deep analytical implementations[cite: 1].</p>
-        
-        <div class="grid-layout">
-            <!-- Project Card 1 -->
-            <div class="glass-card">
-                <div class="live-badge">Live Repository</div>
-                <div class="card-icon"><i class="fas fa-shield-halved"></i></div>
-                <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Spam SMS Analytics Suite</h3>
-                <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;" data-i18n="p1_desc">
-                    Supervised natural language processing engine achieving 92% metric precision using vectorized token distributions and optimization topologies[cite: 1].
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <p class="greeting">Hi, I am</p>
+                <h1 class="name">Rahul Kumar</h1>
+                <h2 class="title"><span class="typing-text"></span></h2>
+                <p class="summary">
+                    Java-Certified Computer Science graduate with expertise in Data Science, Machine Learning, and Software Development. Passionate about building intelligent solutions.
                 </p>
-                <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-                    <span style="font-size:0.75rem; background:rgba(255,255,255,0.05); padding:0.3rem 0.6rem; border-radius:5px;">Python</span>
-                    <span style="font-size:0.75rem; background:rgba(255,255,255,0.05); padding:0.3rem 0.6rem; border-radius:5px;">Scikit-learn</span>
-                    <span style="font-size:0.75rem; background:rgba(255,255,255,0.05); padding:0.3rem 0.6rem; border-radius:5px;">NLP</span>
+                <div class="hero-actions">
+                    <a href="https://wa.me/918288980473?text=Hi%20Rahul!%20I%20came%20across%20your%20amazing%20portfolio%20and%20would%20love%20to%20connect." target="_blank" class="btn primary-btn"><i class="fa-brands fa-whatsapp" style="margin-right: 8px; font-size: 1.2rem;"></i> Chat on WhatsApp</a>
+                    <a href="Rahul_Resume.pdf" class="btn secondary-btn" download>Download CV</a>
                 </div>
-                <a href="https://github.com/rahulrai-02" target="_blank" class="secondary-link">
-                    Explore Codebase <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-
-            <!-- Project Card 2 -->
-            <div class="glass-card">
-                <div class="live-badge">Live Repository</div>
-                <div class="card-icon"><i class="fas fa-face-angry"></i></div>
-                <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Hate Speech Vector Net</h3>
-                <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;" data-i18n="p2_desc">
-                    Deep Neural Engine architectures trained on large tensor matrices to analyze, predict, and isolate critical language patterns across datasets[cite: 1].
-                </p>
-                <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-                    <span style="font-size:0.75rem; background:rgba(255,255,255,0.05); padding:0.3rem 0.6rem; border-radius:5px;">TensorFlow</span>
-                    <span style="font-size:0.75rem; background:rgba(255,255,255,0.05); padding:0.3rem 0.6rem; border-radius:5px;">Python</span>
-                    <span style="font-size:0.75rem; background:rgba(255,255,255,0.05); padding:0.3rem 0.6rem; border-radius:5px;">Data Science</span>
+                <div class="social-links">
+                    <a href="https://github.com/rahulrai-02" target="_blank"><i class="fa-brands fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/rahulkumar002/" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="mailto:rahulrai.developer@gmail.com"><i class="fa-solid fa-envelope"></i></a>
                 </div>
-                <a href="https://github.com/rahulrai-02" target="_blank" class="secondary-link">
-                    Explore Codebase <i class="fas fa-arrow-right"></i>
-                </a>
             </div>
+            <div class="hero-visual">
+                <img src="assets/Gemini_Generated_Image_50gfvn50gfvn50gf.png" alt="Rahul Kumar Profile" class="hero-image">
+            </div>
+        </section>
 
-            <!-- Industrial Intern Card -->
-            <div class="glass-card">
-                <div class="card-icon"><i class="fas fa-chart-line"></i></div>
-                <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Data Science Operations</h3>
-                <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;" data-i18n="exp_desc">
-                    Constructed stakeholder predictive tooling models at Personify, processing 10K+ multi-structured objects to clear systemic pipeline errors[cite: 1].
-                </p>
-                <p style="font-size: 0.85rem; color: var(--accent); font-weight:600;"><i class="far fa-calendar-alt"></i> Feb 2025 - Apr 2025[cite: 1]</p>
+        <!-- Working With / Partners Section -->
+        <section class="partners" style="padding: 2rem 10%; min-height: auto; border-bottom: 1px solid var(--card-border);">
+            <p style="text-align: center; color: var(--text-muted); font-size: 0.85rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 2rem;" class="build-in">Working With Programs By</p>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 4rem; flex-wrap: wrap;" class="build-in">
+                <div class="partner-logo"><img src="assets/miety.png" alt="MeitY" style="max-height: 60px; width: auto; object-fit: contain;"></div>
+                <div class="partner-logo"><img src="assets/wblLogo.png" alt="WBLP" style="max-height: 60px; width: auto; object-fit: contain;"></div>
+                <div class="partner-logo"><img src="assets/India.png" alt="India AI" style="max-height: 60px; width: auto; object-fit: contain;"></div>
+                <div class="partner-logo"><img src="assets/ndu-logo.jpeg" alt="NIELIT" style="max-height: 60px; width: auto; object-fit: contain;"></div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Technical Infrastructure Blueprint -->
-    <section id="infrastructure">
-        <h2 style="font-size: 3rem; font-weight: 900; margin-bottom: 3rem;" data-i18n="tech_stack">Technical Vector Stack</h2>
-        <div class="grid-layout" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
-            <div class="glass-card" style="padding: 1.8rem;">
-                <h4 style="margin-bottom:1rem; color:var(--accent);">Languages</h4>
-                <p style="font-size:0.95rem; line-height:1.8;">Java (Certified)<br>Python<br>C/C++<br>JavaScript<br>SQL[cite: 1]</p>
+        <!-- About Section -->
+        <section id="about" class="about">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>I am a Computer Science & Engineering student at <strong>I. K. Gujral Punjab Technical University</strong> (2022-2026), deeply interested in the intersection of software development and data science.</p>
+                    <p>I have proven ability to develop predictive models, clean datasets, and build NLP-based solutions using Python, Java, and Scikit-learn. I bring strong problem-solving skills with a passion for collaborative innovation and continuous learning.</p>
+                    
+                    <div class="education">
+                        <h3><i class="fa-solid fa-graduation-cap"></i> Education</h3>
+                        <div class="edu-item">
+                            <img src="assets/ikgptu.jpg" alt="IKGPTU Logo" class="edu-logo">
+                            <div class="edu-text">
+                                <h4>B.Tech in Computer Science & Engineering</h4>
+                                <p>I. K. Gujral Punjab Technical University, Jalandhar</p>
+                                <span>2022 – 2026</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-box">
+                        <h3>Python & Java</h3>
+                        <p>Core Languages</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>Certified</h3>
+                        <p>Java Programming</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>ML / Data Science</h3>
+                        <p>Specialization</p>
+                    </div>
+                </div>
             </div>
-            <div class="glass-card" style="padding: 1.8rem;">
-                <h4 style="margin-bottom:1rem; color:var(--accent);">ML & Data</h4>
-                <p style="font-size:0.95rem; line-height:1.8;">Pandas, NumPy<br>Scikit-learn<br>TensorFlow<br>NLP Foundations<br>Matplotlib[cite: 1]</p>
-            </div>
-            <div class="glass-card" style="padding: 1.8rem;">
-                <h4 style="margin-bottom:1rem; color:var(--accent);">Environments</h4>
-                <p style="font-size:0.95rem; line-height:1.8;">Git Control<br>Jupyter Notebooks<br>VS Code Workspace<br>MySQL Databases[cite: 1]</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <footer style="padding: 4rem 10%; text-align: center; border-top: 1px solid var(--glass-border); color: var(--text-muted); font-size: 0.9rem;">
-        <p>© 2026 Rahul Kumar. Handcrafted for next-generation platforms. See full layout inside Rahul_Resume.pdf.</p>
+        <!-- Skills Section -->
+        <section id="skills" class="skills">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="skills-container">
+                <div class="skill-category">
+                    <h3><i class="fa-solid fa-laptop-code"></i> Programming</h3>
+                    <div class="skill-tags">
+                        <span>Java</span>
+                        <span>Python</span>
+                        <span>C/C++</span>
+                        <span>JavaScript</span>
+                        <span>SQL</span>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3><i class="fa-solid fa-chart-pie"></i> Data Science & ML</h3>
+                    <div class="skill-tags">
+                        <span>Pandas</span>
+                        <span>NumPy</span>
+                        <span>Scikit-learn</span>
+                        <span>TensorFlow</span>
+                        <span>NLP</span>
+                        <span>Matplotlib</span>
+                        <span>Seaborn</span>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3><i class="fa-brands fa-html5"></i> Web & Tools</h3>
+                    <div class="skill-tags">
+                        <span>HTML5</span>
+                        <span>CSS</span>
+                        <span>Git</span>
+                        <span>Jupyter Notebook</span>
+                        <span>VS Code</span>
+                        <span>MySQL</span>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3><i class="fa-solid fa-users"></i> Soft Skills</h3>
+                    <div class="skill-tags">
+                        <span>Problem-Solving</span>
+                        <span>Team Collaboration</span>
+                        <span>Analytical Thinking</span>
+                        <span>Project Management</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Live Dashboard Section -->
+        <section id="dashboard" class="dashboard">
+            <h2 class="section-title">Live Dashboard</h2>
+            <div class="dashboard-grid">
+                <!-- GitHub Stats Box -->
+                <div class="dash-card github-stats">
+                    <div class="dash-header">
+                        <i class="fa-brands fa-github"></i>
+                        <h3>GitHub Live Stats</h3>
+                    </div>
+                    <div class="stats-row" id="github-stats-container">
+                        <div class="stat-item"><span class="stat-value">...</span><span class="stat-label">Repos</span></div>
+                        <div class="stat-item"><span class="stat-value">...</span><span class="stat-label">Followers</span></div>
+                        <div class="stat-item"><span class="stat-value">...</span><span class="stat-label">Following</span></div>
+                    </div>
+                </div>
+
+                <!-- Latest Repos Box -->
+                <div class="dash-card latest-repos">
+                    <div class="dash-header">
+                        <i class="fa-solid fa-code-branch"></i>
+                        <h3>Latest Repositories</h3>
+                    </div>
+                    <div class="repos-list" id="github-repos-container">
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">Loading live repositories...</p>
+                    </div>
+                </div>
+
+                <!-- LinkedIn Stats Box -->
+                <div class="dash-card linkedin-stats">
+                    <div class="dash-header" style="color: #0077b5;">
+                        <i class="fa-brands fa-linkedin"></i>
+                        <h3>LinkedIn Network</h3>
+                    </div>
+                    <div class="stats-row">
+                        <div class="stat-item"><span class="stat-value">500+</span><span class="stat-label">Connections</span></div>
+                        <div class="stat-item"><span class="stat-value">Active</span><span class="stat-label">Status</span></div>
+                    </div>
+                    <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-muted);">* LinkedIn stats are simulated due to API restrictions. Connect to see real-time updates!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="experience">
+            <h2 class="section-title">Experience</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3>Data Science Intern</h3>
+                            <span class="company">Personify</span>
+                            <span class="date">Feb 2025 – Apr 2025</span>
+                        </div>
+                        <ul>
+                            <li>Developed predictive models using Python & Scikit-learn, improving customer insights by 20%.</li>
+                            <li>Cleaned & analyzed 10K+ records using Pandas & NumPy, reducing data errors by 15%.</li>
+                            <li>Built interactive dashboards (Matplotlib/Seaborn) for stakeholder visualization.</li>
+                        </ul>
+                        <div style="margin-top: 2rem; text-align: center; width: 100%;">
+                            <a href="Rahul_Mar_2025_internship_59796.pdf" target="_blank" style="text-decoration: none;">
+                                <img src="assets/internship_thumb.jpg" alt="Internship Certificate" style="width: 350px; max-width: 100%; height: auto; border-radius: 12px; border: 3px solid var(--primary-color); transition: transform 0.3s ease; box-shadow: 0 10px 30px rgba(255, 0, 127, 0.3);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                                <p style="margin-top: 1rem; font-weight: 800; font-size: 1.5rem; color: var(--primary-color); text-transform: uppercase; letter-spacing: 2px;">Internship</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="projects">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-content" style="display: flex; flex-direction: column; align-items: center; justify-content: space-between; height: 100%; padding: 2rem; text-align: center;">
+                        <div style="width: 100%; margin-bottom: 2rem;">
+                            <a href="Rahul_Feb_2025_project_completion_59796.pdf" target="_blank" style="text-decoration: none; display: block; width: 100%;">
+                                <img src="assets/project_thumb.jpg" alt="Completion Certificate" style="width: 100%; height: auto; object-fit: contain; border-radius: 12px; border: 3px solid var(--secondary-color); transition: transform 0.3s ease; box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                                <p style="margin-top: 1.5rem; font-weight: 900; font-size: 1.8rem; color: var(--secondary-color); text-transform: uppercase; letter-spacing: 3px;">Completion</p>
+                            </a>
+                        </div>
+                        
+                        <div style="text-align: left; width: 100%;">
+                            <div class="project-tags" style="justify-content: center; margin-bottom: 1rem;">
+                                <span>Python</span>
+                                <span>NLP</span>
+                                <span>Scikit-learn</span>
+                            </div>
+                            <h3 style="text-align: center;">Spam SMS Classification</h3>
+                            <p style="text-align: center;">Developed a supervised ML model to classify SMS as spam/ham with 92% accuracy using TF-IDF and Naive Bayes. Preprocessed 5K+ messages (tokenization, stemming, stopword removal) to improve model performance.</p>
+                            <div style="text-align: center; margin-top: 1rem;">
+                                <a href="#" class="project-link"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-content" style="display: flex; flex-direction: column; align-items: center; justify-content: space-between; height: 100%; padding: 2rem; text-align: center;">
+                        <div style="text-align: left; width: 100%;">
+                            <div class="project-tags" style="justify-content: center; margin-bottom: 1rem;">
+                                <span>Python</span>
+                                <span>Flask</span>
+                                <span>JavaScript</span>
+                            </div>
+                            <h3 style="text-align: center;">ICT Teachers Training Dashboard</h3>
+                            <p style="text-align: center;">Built a real-time data visualization dashboard for NIELIT Ropar. Transforms raw CSV attendance data into an interactive map and dynamic charts, tracking the progress of 330+ educators across 12 training batches.</p>
+                            <div style="text-align: center; margin-top: 1rem;">
+                                <a href="https://github.com/rahulrai-02/Teachers-training-in-ICT-Digital-Initiatives" target="_blank" class="project-link"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certifications Section -->
+        <section id="certifications" class="certifications">
+            <h2 class="section-title">Certifications & Achievements</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-content" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; padding: 2rem;">
+                        <a href="assets/JAVA certificate.jpeg" target="_blank" style="text-decoration: none; width: 100%;">
+                            <img src="assets/JAVA certificate.jpeg" alt="Java Certificate" style="width: 100%; height: auto; object-fit: contain; border-radius: 12px; border: 3px solid var(--primary-color); transition: transform 0.3s ease; box-shadow: 0 10px 30px rgba(255, 0, 127, 0.3);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                            <p style="margin-top: 1.5rem; font-weight: 900; font-size: 1.8rem; color: var(--primary-color); text-transform: uppercase; letter-spacing: 3px;">Java</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-content" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; padding: 2rem;">
+                        <a href="Rahul_Feb_2025_participation_59796.pdf" target="_blank" style="text-decoration: none; width: 100%;">
+                            <img src="assets/participation_thumb.jpg" alt="Participation Certificate" style="width: 100%; height: auto; object-fit: contain; border-radius: 12px; border: 3px solid var(--accent-color); transition: transform 0.3s ease; box-shadow: 0 10px 30px rgba(57, 255, 20, 0.3);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                            <p style="margin-top: 1.5rem; font-weight: 900; font-size: 1.8rem; color: var(--accent-color); text-transform: uppercase; letter-spacing: 3px;">Participation</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact">
+            <h2 class="section-title">Let's Connect</h2>
+            <p class="contact-desc">I am currently open for new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!</p>
+            
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="info-item">
+                        <i class="fa-solid fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p><a href="mailto:rahulrai.developer@gmail.com">rahulrai.developer@gmail.com</a></p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fa-solid fa-phone"></i>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>+91 8288980473</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <div>
+                            <h4>Location</h4>
+                            <p>Ludhiana, Punjab</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <i class="fa-solid fa-hashtag"></i>
+                        <div>
+                            <h4>Social Profiles</h4>
+                            <div style="display: flex; gap: 1.5rem; margin-top: 0.5rem; font-size: 1.5rem;">
+                                <a href="https://www.linkedin.com/in/rahulkumar002/" target="_blank" style="color: var(--primary-color); transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'"><i class="fa-brands fa-linkedin"></i></a>
+                                <a href="https://github.com/rahulrai-02" target="_blank" style="color: var(--secondary-color); transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'"><i class="fa-brands fa-github"></i></a>
+                                <a href="#" target="_blank" style="color: var(--accent-color); transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'"><i class="fa-brands fa-x-twitter"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Rahul Kumar. All Rights Reserved.</p>
     </footer>
 
-    <!-- JavaScript Application Core Logic -->
-    <script>
-        // 1. Interactive Generative Kinetic Canvas Engine
-        const canvas = document.getElementById('canvas-bg');
-        const ctx = canvas.getContext('2d');
-        let points = [];
-        const maxPoints = 65;
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.6;
-                this.vy = (Math.random() - 0.5) * 0.6;
-                this.radius = Math.random() * 2 + 1;
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-            }
-        }
-
-        for (let i = 0; i < maxPoints; i++) {
-            points.push(new Particle());
-        }
-
-        function drawBackgroundAnimation() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const themeColor = document.documentElement.getAttribute('data-theme') === 'light' ? 'rgba(79, 70, 229,' : 'rgba(99, 102, 241,';
-            
-            for (let i = 0; i < points.length; i++) {
-                let p1 = points[i];
-                p1.update();
-                ctx.beginPath();
-                ctx.arc(p1.x, p1.y, p1.radius, 0, Math.PI * 2);
-                ctx.fillStyle = themeColor + ' 0.5)';
-                ctx.fill();
-
-                for (let j = i + 1; j < points.length; j++) {
-                    let p2 = points[j];
-                    let dist = Math.hypot(p1.x - p2.x, p1.y - p2.y);
-                    if (dist < 130) {
-                        ctx.beginPath();
-                        ctx.moveTo(p1.x, p1.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.strokeStyle = themeColor + `${(1 - dist / 130) * 0.15})`;
-                        ctx.lineWidth = 0.8;
-                        ctx.stroke();
-                    }
-                }
-            }
-            requestAnimationFrame(drawBackgroundAnimation);
-        }
-        drawBackgroundAnimation();
-
-        // 2. Comprehensive High-Fidelity 12-Language Data Structure
-        const dictionary = {
-            en: {
-                hero_title: "Engineering <br><span class='highlight-text'>Intelligence & Data</span>",
-                hero_desc: "Java-Certified Computer Science Engineer specialized in developing smart predictive systems, natural language processing models, and high-performance full-stack architectures[cite: 1].",
-                cta_connect: "Let's Connect",
-                gallery_title: "Endless Dynamic Stream",
-                gallery_desc: "An un-interrupted look at visual modules, architectures, and concepts. Hover to freeze tracking loop.",
-                works_heading: "Verified Operational Work",
-                works_sub: "Production-grade applications built with deep analytical implementations[cite: 1].",
-                p1_desc: "Supervised natural language processing engine achieving 92% metric precision using vectorized token distributions and optimization topologies[cite: 1].",
-                p2_desc: "Deep Neural Engine architectures trained on large tensor matrices to analyze, predict, and isolate critical language patterns across datasets[cite: 1].",
-                exp_desc: "Constructed stakeholder predictive tooling models at Personify, processing 10K+ multi-structured objects to clear systemic pipeline errors[cite: 1].",
-                tech_stack: "Technical Vector Stack"
-            },
-            hi: {
-                hero_title: "इंजीनियरिंग <br><span class='highlight-text'>इंटेलिजेंस और डेटा</span>",
-                hero_desc: "जावा-प्रमाणित कंप्यूटर साइंस इंजीनियर जो स्मार्ट प्रेडिक्टिव सिस्टम, नेचुरल लैंग्वेज प्रोसेसिंग मॉडल और हाई-परफॉर्मेंस फुल-स्टैक आर्किटेक्चर विकसित करने में माहिर हैं[cite: 1]।",
-                cta_connect: "संपर्क करें",
-                gallery_title: "अनंत गतिशील स्ट्रीम",
-                gallery_desc: "दृश्य मॉड्यूल, आर्किटेक्चर और अवधारणाओं पर एक निर्बाध नज़र। ट्रैकिंग लूप को रोकने के लिए माउस ऊपर लाएं।",
-                works_heading: "सत्यापित परिचालन कार्य",
-                works_sub: "गहन विश्लेषणात्मक कार्यान्वयन के साथ निर्मित प्रोडक्शन-ग्रेड अनुप्रयोग[cite: 1]।",
-                p1_desc: "वेक्टरयुक्त टोकन वितरण और अनुकूलन टोपोलॉजी का उपयोग करके 92% मीट्रिक परिशुद्धता प्राप्त करने वाला पर्यवेक्षित प्राकृतिक भाषा प्रसंस्करण इंजन[cite: 1]।",
-                p2_desc: "डेटासेट में महत्वपूर्ण भाषा पैटर्न का विश्लेषण, भविष्यवाणी और अलग करने के लिए बड़े टेंसर मैट्रिसेस पर प्रशिक्षित डीप न्यूरल इंजन आर्किटेक्चर[cite: 1]।",
-                exp_desc: "पर्सनिफाइ में स्टेकहोल्डर प्रेडिक्टिव टूलिंग मॉडल का निर्माण किया, जिसने सिस्टमैटिक पाइपलाइन त्रुटियों को दूर करने के लिए 10K+ मल्टी-स्ट्रक्चर्ड ऑब्जेक्ट्स को प्रोसेस किया[cite: 1]।",
-                tech_stack: "तकनीकी वेक्टर स्टैक"
-            },
-            pa: {
-                hero_title: "ਇੰਜੀਨੀਅਰਿੰਗ <br><span class='highlight-text'>ਇੰਟੈਲੀਜੈਂਸ ਅਤੇ ਡੇਟਾ</span>",
-                hero_desc: "ਜਾਵਾ-ਪ੍ਰਮਾਣਿਤ ਕੰਪਿਊਟਰ ਸਾਇੰਸ ਇੰਜੀਨੀਅਰ ਜੋ ਸਮਾਰਟ ਭਵਿੱਖਬਾਣੀ ਪ੍ਰਣਾਲੀਆਂ, ਕੁਦਰਤੀ ਭਾਸ਼ਾ ਪ੍ਰੋਸੈਸਿੰਗ ਮਾਡਲਾਂ, ਅਤੇ ਉੱਚ-ਪ੍ਰਦਰਸ਼ਨ ਵਾਲੇ ਫੁੱਲ-ਸਟੈਕ ਆਰਕੀਟੈਕਚਰ ਨੂੰ ਵਿਕਸਤ ਕਰਨ ਵਿੱਚ ਮਾਹਰ ਹੈ[cite: 1]।",
-                cta_connect: "ਸੰਪਰਕ ਕਰੋ",
-                gallery_title: "ਬੇਅੰਤ ਡਾਇਨਾਮਿਕ ਸਟ੍ਰੀਮ",
-                gallery_desc: "ਵਿਜ਼ੂਅਲ ਮੋਡੀਊਲ, ਆਰਕੀਟੈਕਚਰ ਅਤੇ ਸੰਕਲਪਾਂ 'ਤੇ ਇੱਕ ਨਿਰਵਿਘਨ ਨਜ਼ਰ। ਲੂਪ ਨੂੰ ਰੋਕਣ ਲਈ ਉੱਪਰ ਹੋਵਰ ਕਰੋ।",
-                works_heading: "ਪ੍ਰਮਾਣਿਤ ਕਾਰਜਸ਼ੀਲ ਕੰਮ",
-                works_sub: "ਡੂੰਘੇ ਵਿਸ਼ਲੇਸ਼ਣਾਤਮਕ ਅਮਲ ਦੇ ਨਾਲ ਬਣਾਏ ਗਏ ਪ੍ਰੋਡਕਸ਼ਨ-ਗ੍ਰੇਡ ਐਪਲੀਕੇਸ਼ਨ[cite: 1]।",
-                p1_desc: "ਵੈਕਟਰਾਈਜ਼ਡ ਟੋਕਨ ਵੰਡ ਅਤੇ ਅਨੁਕੂਲਨ ਟੋਪੋਲੋਜੀਜ਼ ਦੀ ਵਰਤੋਂ ਕਰਕੇ 92% ਸ਼ੁੱਧਤਾ ਪ੍ਰਾਪਤ ਕਰਨ ਵਾਲਾ ਸੁਪਰਵਾਈਜ਼ਡ ਕੁਦਰਤੀ ਭਾਸ਼ਾ ਪ੍ਰੋਸੈਸਿੰਗ ਇੰਜਣ[cite: 1]।",
-                p2_desc: "ਡਾਟਾਸੈਟਾਂ ਵਿੱਚ ਨਾਜ਼ੁਕ ਭਾਸ਼ਾ ਦੇ ਪੈਟਰਨਾਂ ਦਾ ਵਿਸ਼ਲੇਸ਼ਣ ਕਰਨ, ਭਵਿੱਖਬਾਣੀ ਕਰਨ ਅਤੇ ਅਲੱਗ ਕਰਨ ਲਈ ਵੱਡੇ ਟੈਂਸਰ ਮੈਟ੍ਰਿਕਸ 'ਤੇ ਸਿਖਲਾਈ ਪ੍ਰਾਪਤ ਡੀਪ ਨਿਊਰਲ ਇੰਜਣ ਆਰਕੀਟੈਕਚਰ[cite: 1]।",
-                exp_desc: "Personify ਵਿਖੇ ਸਟੇਕਹੋਲਡਰ ਪੂਰਵ-ਅਨੁਮਾਨਿਤ ਟੂਲਿੰਗ ਮਾਡਲਾਂ ਦਾ ਨਿਰਮਾਣ ਕੀਤਾ, ਜਿਸ ਨੇ ਸਿਸਟਮਿਕ ਪਾਈਪਲਾਈਨ ਤਰੁਟੀਆਂ ਨੂੰ ਸਾਫ਼ ਕਰਨ ਲਈ 10K+ ਬਹੁ-ਸੰਗਠਿਤ ਵਸਤੂਆਂ ਦੀ ਪ੍ਰਕਿਰਿਆ ਕੀਤੀ[cite: 1]।",
-                tech_stack: "ਤਕਨੀਕੀ ਵੈਕਟਰ ਸਟੈਕ"
-            },
-            es: {
-                hero_title: "Ingeniería de <br><span class='highlight-text'>Inteligencia y Datos</span>",
-                hero_desc: "Ingeniero en Ciencias de la Computación con Certificación Java, especializado en el desarrollo de sistemas predictivos inteligentes, modelos de procesamiento de lenguaje natural y arquitecturas full-stack de alto rendimiento[cite: 1].",
-                cta_connect: "Contáctame",
-                gallery_title: "Flujo Dinámico Infinito",
-                gallery_desc: "Una mirada ininterrumpida a módulos visuales, arquitecturas y conceptos. Pasa el cursor para pausar.",
-                works_heading: "Proyectos Operativos Verificados",
-                works_sub: "Aplicaciones de nivel de producción creadas con implementaciones analíticas profundas[cite: 1].",
-                p1_desc: "Motor supervisado de procesamiento de lenguaje natural que logra un 92% de precisión métrica mediante distribuciones de tokens vectorizados[cite: 1].",
-                p2_desc: "Arquitecturas de motores neuronales profundos entrenados en grandes matrices de tensores para analizar y aislar patrones de lenguaje críticos[cite: 1].",
-                exp_desc: "Modelos predictivos construidos en Personify, procesando más de 10k registros para mitigar errores del sistema[cite: 1].",
-                tech_stack: "Pila de Vectores Técnicos"
-            },
-            fr: {
-                hero_title: "Ingénierie de <br><span class='highlight-text'>l'Intelligence et des Données</span>",
-                hero_desc: "Ingénieur en informatique certifié Java, spécialisé dans le développement de systèmes prédictifs intelligents et de modèles NLP[cite: 1].",
-                cta_connect: "Contactez-moi",
-                gallery_title: "Flux Dynamique Infini",
-                gallery_desc: "Un aperçu ininterrompu des modules visuels. Survolez pour figer le mouvement.",
-                works_heading: "Travaux Opérationnels Vérifiés",
-                works_sub: "Applications de qualité production construites avec des implémentations analytiques profondes[cite: 1].",
-                p1_desc: "Moteur NLP supervisé atteignant 92% de précision métrique via des distributions de jetons vectorisés[cite: 1].",
-                p2_desc: "Architectures de moteurs neuronaux profonds entraînés sur de grandes matrices de tenseurs[cite: 1].",
-                exp_desc: "Modèles prédictifs conçus chez Personify, traitant plus de 10 000 enregistrements[cite: 1].",
-                tech_stack: "Architecture Technique"
-            },
-            de: {
-                hero_title: "Engineering für <br><span class='highlight-text'>Intelligenz & Daten</span>",
-                hero_desc: "Java-zertifizierter Informatikingenieur, spezialisiert auf intelligente prädiktive Systeme und NLP-Modelle[cite: 1].",
-                cta_connect: "Verbinden",
-                gallery_title: "Endloser dynamischer Stream",
-                gallery_desc: "Ein ununterbrochener Blick auf visuelle Module. Hovern zum Anhalten.",
-                works_heading: "Verifizierte operative Arbeit",
-                works_sub: "Produktionsreife Anwendungen mit tiefen analytischen Implementierungen[cite: 1].",
-                p1_desc: "Überwachter NLP-Prozessor, der eine Metrikpräzision von 92% durch vektorisierte Token erreicht[cite: 1].",
-                p2_desc: "Deep-Neural-Engine-Architekturen, trainiert auf großen Tensormatrizen[cite: 1].",
-                exp_desc: "Prädiktive Modelle bei Personify erstellt, um Systemfehler zu reduzieren[cite: 1].",
-                tech_stack: "Technischer Stack"
-            },
-            zh: {
-                hero_title: "工程化 <br><span class='highlight-text'>智能与数据系统</span>",
-                hero_desc: "Java认证计算机科学工程师，专注于开发智能预测系统、自然语言处理模型和高性能全栈架构[cite: 1]。",
-                cta_connect: "联系我",
-                gallery_title: "无尽动态数据流",
-                gallery_desc: "不间断地展示视觉模块、架构和概念。悬停以冻结追踪循环。",
-                works_heading: "经验证的实际项目",
-                works_sub: "通过深度分析实现的生产级应用[cite: 1]。",
-                p1_desc: "利用向量化标记分布和优化拓扑结构，实现92%精确度的监督式自然语言处理引擎[cite: 1]。",
-                p2_desc: "在大型张量矩阵上训练的深度神经网络架构，用于分析、预测和隔离跨数据集的关键语言模式[cite: 1]。",
-                exp_desc: "在 Personify 构建利益相关者预测工具模型，处理1万个以上的多结构对象[cite: 1]。",
-                tech_stack: "技术向量栈"
-            },
-            ja: {
-                hero_title: "インテリジェンス & <br><span class='highlight-text'>データエンジニアリング</span>",
-                hero_desc: "Java認定コンピュータサイエンスエンジニア。スマート予測システム、自然语言処理モデル、高性能フルスタックアーキテクチャの開発を専門としています[cite: 1]。",
-                cta_connect: "お問い合わせ",
-                gallery_title: "エンドレス・ダイナミック・ストリーム",
-                gallery_desc: "視覚的モジュール、アーキテクチャ、概念を途切れなく表示。ホバーでループが停止します。",
-                works_heading: "検証済み実稼働実績",
-                works_sub: "高度な分析実装によって構築された本番環境レベルのアプリケーション[cite: 1]。",
-                p1_desc: "ベクトル化されたトークン分布と最適化トポロジーを使用して、92%の精度を達成した、教師あり自然言語処理エンジン[cite: 1]。",
-                p2_desc: "データセット全体の重要な言語パターンを分析・予測・特定するために、大型テンソル行列でトレーニングされたディープニューラルエンジン[cite: 1]。",
-                exp_desc: "Personifyにおいてステークホルダー向けの予測モデリングツールを構築、1万件以上のレコードを処理[cite: 1]。",
-                tech_stack: "技術スタック"
-            },
-            ar: {
-                hero_title: "هندسة <br><span class='highlight-text'>الذكاء والبيانات</span>",
-                hero_desc: "مهندس علوم كمبيوتر معتمد من Java ومتخصص في تطوير الأنظمة التنبؤية الذكية ونماذج معالجة اللغة الطبيعية[cite: 1].",
-                cta_connect: "دعنا نتواصل",
-                gallery_title: "تدفق ديناميكي لا ينتهي",
-                gallery_desc: "نظرة غير منقطعة على الوحدات المرئية والمفاهيم. مرر مؤشر الماوس للتجميد.",
-                works_heading: "الأعمال التشغيلية المعتمدة",
-                works_sub: "تطبيقات جاهزة للإنتاج مبنية بتنفيذ تحليلي عميق[cite: 1].",
-                p1_desc: "محرك معالجة لغة طبيعية خاضع للإشراف يحقق دقة 92٪ باستخدام توزيعات الرموز الموجهة[cite: 1].",
-                p2_desc: "بنيات المحركات العصبية العميقة المدربة على مصفوفات الموترات الكبيرة لتحليل الأنماط اللغوية[cite: 1].",
-                exp_desc: "بناء نماذج تنبؤية لأصحاب المصلحة في Personify، ومعالجة أكثر من 10 آلاف سجل لتصحيح أخطاء النظام[cite: 1].",
-                tech_stack: "مجموعة الأدوات التقنية"
-            },
-            ru: {
-                hero_title: "Инженерия <br><span class='highlight-text'>Интеллекта и Данных</span>",
-                hero_desc: "Сертифицированный Java инженер по компьютерным наукам, специализирующийся на разработке интеллектуальных прогностических систем и моделей NLP[cite: 1].",
-                cta_connect: "Связаться",
-                gallery_title: "Бесконечный динамический поток",
-                gallery_desc: "Непрерывный обзор визуальных модулей и концепций. Наведите курсор, чтобы заморозить.",
-                works_heading: "Проверенные операционные работы",
-                works_sub: "Приложения промышленного уровня, созданные с использованием глубокого аналитического анализа[cite: 1].",
-                p1_desc: "Контролируемый механизм NLP, обеспечивающий точность метрики 92% с использованием векторизованных токенов[cite: 1].",
-                p2_desc: "Архитектура глубоких нейронных сетей, обученная на больших тензорных матрицах для анализа языковых паттернов[cite: 1].",
-                exp_desc: "Создание прогностических моделей в Personify, обработка более 10 тысяч записей для снижения системных ошибок[cite: 1].",
-                tech_stack: "Технический стек"
-            },
-            pt: {
-                hero_title: "Engenharia de <br><span class='highlight-text'>Inteligência e Dados</span>",
-                hero_desc: "Engenheiro de Computação Certificado em Java, especialista no desenvolvimento de sistemas preditivos inteligentes e modelos de NLP[cite: 1].",
-                cta_connect: "Vamos Conversar",
-                gallery_title: "Fluxo Dinâmico Infinito",
-                gallery_desc: "Uma visão ininterrupta de módulos visuais. Passe o mouse para congelar o loop.",
-                works_heading: "Trabalho Operacional Verificado",
-                works_sub: "Aplicações de nível de produção construídas com implementações analíticas profundas[cite: 1].",
-                p1_desc: "Motor de NLP supervisionado que alcança 92% de precisão métrica usando distribuições de tokens vetorizados[cite: 1].",
-                p2_desc: "Arquiteturas de motores neurais profundos treinados em matrizes de tensores para isolar padrões de linguagem críticos[cite: 1].",
-                exp_desc: "Modelos preditivos construídos na Personify, processando mais de 10 mil registros estruturados[cite: 1].",
-                tech_stack: "Vetor de Stack Técnico"
-            },
-            bn: {
-                hero_title: "ইঞ্জিনিয়ারিং <br><span class='highlight-text'>ইন্টেলিজেন্স এবং ডাটা</span>",
-                hero_desc: "জাভা-প্রত্যয়িত কম্পিউটার সায়েন্স ইঞ্জিনিয়ার যিনি স্মার্ট প্রেডিক্টিভ সিস্টেম, ন্যাচারাল ল্যাঙ্গুয়েজ প্রসেসিং মডেল এবং হাই-পারফরম্যান্স ফুল-স্ট্যাক আর্কিটেকচার তৈরিতে বিশেষজ্ঞ[cite: 1]।",
-                cta_connect: "যোগাযোগ করুন",
-                gallery_title: "অবিরাম ডায়নামিক স্ট্রিম",
-                gallery_desc: "ভিজ্যুয়াল মডিউল, আর্কিটেকচার এবং ধারণার একটি নিরবচ্ছিন্ন রূপ। লুপটি ফ্রিজ করতে মাউস রাখুন।",
-                works_heading: "যাচাইকৃত অপারেশনাল কাজ",
-                works_sub: "গভীর বিশ্লেষণাত্মক বাস্তবায়নের সাথে নির্মিত প্রোডাকশন-গ্রেড অ্যাপ্লিকেশন[cite: 1]।",
-                p1_desc: "ভেক্টরাইজড টোকেন ডিস্ট্রিবিউশন এবং অপ্টিমাইজেশান টপোলজি ব্যবহার করে ৯২% নির্ভুলতা অর্জনকারী ন্যাচারাল ল্যাঙ্গুয়েজ প্রসেসিং ইঞ্জিন[cite: 1]।",
-                p2_desc: "ডেটা সেট জুড়ে জটিল ভাষার প্যাটার্ন বিশ্লেষণ, ভবিষ্যদ্বাণী এবং আলাদা করার জন্য বড় টেনসর ম্যাট্রিক্সের উপর প্রশিক্ষিত ডিপ নিউরাল ইঞ্জিন[cite: 1]।",
-                exp_desc: "Personify-এ স্টেকহোল্ডারদের জন্য প্রেডিক্টিভ মডেল তৈরি করেছেন, যা সিস্টেমিক পাইপলাইন ত্রুটিগুলি দূর করতে ১০ হাজারের বেশি অবজেক্ট প্রসেস করেছে[cite: 1]।",
-                tech_stack: "টেকনিক্যাল ভেক্টর স্ট্যাক"
-            }
-        };
-
-        function switchLanguage(langCode) {
-            const targets = document.querySelectorAll('[data-i18n]');
-            const data = dictionary[langCode] || dictionary['en'];
-
-            targets.forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (data[key]) el.innerHTML = data[key];
-            });
-
-            // Handle RTL layouts seamlessly for languages like Arabic
-            document.body.style.direction = langCode === 'ar' ? 'rtl' : 'ltr';
-        }
-
-        // 3. Theme Toggling Implementation
-        function toggleSystemTheme() {
-            const current = document.documentElement.getAttribute('data-theme');
-            const target = current === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', target);
-            
-            const icon = document.getElementById('theme-icon');
-            icon.innerHTML = target === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-            localStorage.setItem('portfolio-theme', target);
-        }
-
-        // Initialize state configuration on frame allocation
-        const saved = localStorage.getItem('portfolio-theme') || 'dark';
-        document.documentElement.setAttribute('data-theme', saved);
-        document.getElementById('theme-icon').innerHTML = saved === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-
-        // 4. Generative Endless Marquee Content Loader (Endless Picture Mode)
-        const marqueeTrack = document.getElementById('dynamic-marquee');
-        const cardsData = [
-            { icon: "fa-brain", title: "Neural Processing Nodes", tag: "AI Matrix" },
-            { icon: "fa-network-wired", title: "Tokenized Vectors", tag: "NLP Data" },
-            { icon: "fa-database", title: "Deep Dimensional Arrays", tag: "Tensors" },
-            { icon: "fa-code-branch", title: "Automated Control Topologies", tag: "Git Pipeline" },
-            { icon: "fa-microchip", title: "High-Performance Compute", tag: "Parallel Processing" }
-        ];
-
-        // Duplicate sequences to construct mathematical infinity seamless loop buffer
-        const doubleData = [...cardsData, ...cardsData, ...cardsData];
-        doubleData.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'gallery-card';
-            card.innerHTML = `
-                <div class="gallery-image-placeholder">
-                    <i class="fas ${item.icon}"></i>
-                </div>
-                <div class="gallery-info">
-                    <span style="font-size:0.75rem; color:var(--accent); font-weight:700; text-transform:uppercase;">${item.tag}</span>
-                    <h4 style="margin-top:0.5rem; font-size:1.1rem;">${item.title}</h4>
-                </div>
-            `;
-            marqueeTrack.appendChild(card);
-        });
-
-        // 5. GSAP Reveal Trigger Sequences
-        gsap.registerPlugin(ScrollTrigger);
-        gsap.from("#hero-space .glitch-title", { opacity: 0, y: 50, duration: 1, delay: 0.2 });
-        gsap.from("#hero-space .subtitle", { opacity: 0, y: 30, duration: 1, delay: 0.4 });
-        
-        gsap.from("#work-space .glass-card", {
-            scrollTrigger: {
-                trigger: "#work-space",
-                start: "top 80%",
-            },
-            opacity: 0,
-            y: 40,
-            stagger: 0.2,
-            duration: 0.8
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
